@@ -176,12 +176,32 @@ extension Harmonic: CKSyncEngineDelegate {
         case .sentRecordZoneChanges(let event):
             self.handleSentRecordZoneChanges(event)
 
-        case .sentDatabaseChanges:
-            // The sample app doesn't track sent database changes in any meaningful way, but this might be useful depending on your data model.
+        case .sentDatabaseChanges(let event):
+            print("sentDatabaseChanges", event)
             break
 
-        case .willFetchChanges, .willFetchRecordZoneChanges, .didFetchRecordZoneChanges, .didFetchChanges, .willSendChanges, .didSendChanges:
-            // We don't do anything here in the sample app, but these events might be helpful if you need to do any setup/cleanup when sync starts/ends.
+        case .willFetchChanges(let event):
+            print("willFetchChanges", event)
+            break
+
+        case .willFetchRecordZoneChanges(let event):
+            print("willFetchRecordZoneChanges", event)
+            break
+
+        case .didFetchRecordZoneChanges(let event):
+            print("didFetchRecordZoneChanges", event)
+            break
+
+        case .didFetchChanges(let event):
+            print("didFetchChanges", event)
+            break
+
+        case .willSendChanges(let event):
+            print("willSendChanges", event)
+            break
+
+        case .didSendChanges(let event):
+            print("didSendChanges", event)
             break
 
         @unknown default:
@@ -404,7 +424,6 @@ private extension Harmonic {
     }
 }
 
-
 // MARK: - Model Type Helpers
 
 private extension Harmonic {
@@ -421,5 +440,12 @@ private extension Harmonic {
         }
 
         return modelType
+    }
+}
+
+
+extension Harmonic {
+    func fetchAsset() {
+//        privateDatabase.fet
     }
 }
