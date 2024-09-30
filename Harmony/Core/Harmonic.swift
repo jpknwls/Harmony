@@ -452,11 +452,13 @@ extension Harmonic {
 
 public extension Harmonic {
 
-    func fetchURL(id: String, key: String, completion: @escaping (URL?, Error?) -> ()) {
-        let recordID = CKRecord.ID(recordName: id)
-        let fetchOperation = CKFetchRecordsOperation(recordIDs: [recordID])
+    func fetchURL(id: CKRecord.ID, key: String, completion: @escaping (URL?, Error?) -> ()) {
+//        let recordID = CKRecord.ID(recordName: id)
+        let fetchOperation = CKFetchRecordsOperation(recordIDs: [id])
 //           fetchOperation.desiredKeys = [key]
         fetchOperation.perRecordResultBlock = { (record: CKRecord.ID, result: Result<CKRecord, Error>) -> Void in
+            print("RESTULTS FOR", record)
+            
                switch result {
                case .failure(let error):
                    completion(nil,  error)
