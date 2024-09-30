@@ -3,6 +3,7 @@ import Foundation
 
 enum URLTransformer {
     static func encode(_ value: URL) -> CKRecordValue {
+        print("ENCODING", value)
         if value.isFileURL {
             return CKAsset(fileURL: value)
         } else {
@@ -53,6 +54,8 @@ enum URLTransformer {
             )
             throw DecodingError.typeMismatch(URL.self, context)
         }
+        
+        print("DECODING URL AS", url)
         return url
     }
 }
