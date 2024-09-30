@@ -449,3 +449,30 @@ extension Harmonic {
 //        privateDatabase.fet
     }
 }
+
+public extension Harmonic {
+
+    func fetchURL(id: String, key: String, completion: @escaping (URL?, Error?) -> ()) {
+        let recordID = CKRecord.ID(recordName: id)
+        let fetchOperation = CKFetchRecordsOperation(recordIDs: [recordID])
+           fetchOperation.desiredKeys = [key]
+        fetchOperation.perRecordResultBlock = { (record: CKRecord.ID, result: Result<CKRecord, Error>) -> Void in
+               switch result {
+               case .failure(let error):
+                   completion(nil,  error)
+                   break
+               case .success(let record):
+                   if let asset = record[key] as? CKAsset,
+                        let url = asset.fileURL {
+                       completion(url,  nil)
+                   } else {
+//                       completion(nil,  error)
+                   }
+                   break
+               }
+              
+           }
+        
+        self.container.add(fetchOperation)
+    }
+}
