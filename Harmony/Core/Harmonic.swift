@@ -473,6 +473,6 @@ public extension Harmonic {
               
            }
         
-        self.container.add(fetchOperation)
+        self.container.privateCloudDatabase.add(fetchOperation)
     }
 }
