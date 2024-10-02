@@ -1,5 +1,5 @@
 //
-//  Harmonic+DatabaseDefaults.swift
+//  SQLight+DatabaseDefaults.swift
 //
 //
 //  Created by Aaron Pearce on 14/06/23.
@@ -9,7 +9,7 @@ import GRDB
 import os.log
 import Foundation
 
-extension Harmonic {
+extension SQLight {
     static let sqlLogger = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "SQL")
 
     public static var defaultDatabasePath: String {
@@ -54,7 +54,7 @@ extension Harmonic {
                     // information (statement arguments) are not logged
                     // unless config.publicStatementArguments is set
                     // (see below).
-                    os_log("%{public}@", log: Harmonic.sqlLogger, type: .debug, String(describing: $0))
+                    os_log("%{public}@", log: SQLight.sqlLogger, type: .debug, String(describing: $0))
                 }
             }
         }

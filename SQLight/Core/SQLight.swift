@@ -1,6 +1,6 @@
 //
-//  Harmony.swift
-//  Harmony
+//  SQLight.swift
+//  SQLight
 //
 //  Created by Aaron Pearce on 8/06/23.
 //
@@ -36,7 +36,7 @@ import Combine
 /// without inherently misusing the library.
 ///
 ///
-public final class Harmonic {
+public final class SQLight {
 
     // Containers
     // Shared or private?
@@ -129,15 +129,15 @@ public final class Harmonic {
         }
     }
 
-    static func dummy() -> Harmonic {
+    static func dummy() -> SQLight {
         var config = Configuration()
         config.isDummy = true
         let migrator = DatabaseMigrator()
-        return Harmonic(for: [], configuration: config, migrator: migrator)
+        return SQLight(for: [], configuration: config, migrator: migrator)
     }
 }
 
-private extension Harmonic {
+private extension SQLight {
 
     func initializeSyncEngine() {
         var configuration = CKSyncEngine.Configuration(
@@ -154,7 +154,7 @@ private extension Harmonic {
 
 // MARK: CKSyncEngineDelegate
 
-extension Harmonic: CKSyncEngineDelegate {
+extension SQLight: CKSyncEngineDelegate {
 
     public func handleEvent(_ event: CKSyncEngine.Event, syncEngine: CKSyncEngine) async {
 
@@ -242,7 +242,7 @@ extension Harmonic: CKSyncEngineDelegate {
 }
 
 // MARK: - Event Handlers
-private extension Harmonic {
+private extension SQLight {
 
     func handleAccountChange(_ event: CKSyncEngine.Event.AccountChange) {
         Logger.database.info("Handle account change \(event, privacy: .public)")
@@ -426,7 +426,7 @@ private extension Harmonic {
 
 // MARK: - Model Type Helpers
 
-private extension Harmonic {
+private extension SQLight {
 
     func modelType(for record: CKRecord) -> (any HRecord.Type)? {
         return modelType(for: record.recordType)
@@ -444,13 +444,13 @@ private extension Harmonic {
 }
 
 
-extension Harmonic {
+extension SQLight {
     func fetchAsset() {
 //        privateDatabase.fet
     }
 }
 
-public extension Harmonic {
+public extension SQLight {
 
     func fetchURL(id: CKRecord.ID, key: String, completion: @escaping (URL?, Error?) -> ()) {
 //        let recordID = CKRecord.ID(recordName: id)

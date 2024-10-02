@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Harmony",
+    name: "SQLight",
     platforms: [.iOS(.v17), .macOS(.v14), .watchOS(.v10), .macCatalyst(.v17)],
     products: [
         .library(
-            name: "Harmony",
-            targets: ["Harmony"]
+            name: "SQLight",
+            targets: ["SQLight"]
         ),
     ],
     dependencies: [
@@ -17,16 +17,16 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Harmony",
+            name: "SQLight",
             dependencies: [
                 .product(name: "GRDB", package: "GRDB.swift")
             ],
-            path: "Harmony",
+            path: "SQLight",
             resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .testTarget(
-            name: "HarmonyTests",
-            dependencies: ["Harmony"]
+            name: "SQLightTests",
+            dependencies: ["SQLight"]
         ),
     ]
 )

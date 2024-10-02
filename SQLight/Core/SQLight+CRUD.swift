@@ -1,6 +1,6 @@
 //
-//  Harmonic+CRUD.swift
-//  Harmony
+//  SQLight+CRUD.swift
+//  SQLight
 //
 //  Created by Aaron Pearce on 11/06/23.
 //
@@ -10,7 +10,7 @@ import GRDB
 import CloudKit
 import os.log
 
-public extension Harmonic {
+public extension SQLight {
 
     func read<T>(_ block: (Database) throws -> T) throws -> T {
         try reader.read(block)
