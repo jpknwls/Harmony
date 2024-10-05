@@ -9,7 +9,7 @@ import Foundation
 import GRDB
 
 public struct SQLightRequest {
-    let sql: String
-    var arguments: StatementArguments = []
-    var adapter: RowAdapter? = nil
+    public let sql: String
+    public var arguments: StatementArguments = []
+    public var adapter: RowAdapter? = nil
 }
