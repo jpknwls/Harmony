@@ -11,7 +11,7 @@ public final class CKRecordEncoder {
     self.zoneID = zoneID
   }
 
-    public func encode<E: HRecord>(_ value: E) throws -> CKRecord {
+    public func encode<E: SyncableRecord>(_ value: E) throws -> CKRecord {
       let type = E.recordType
       let recordName = value.recordID.recordName
 

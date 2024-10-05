@@ -7,8 +7,8 @@
 
 import Foundation
 
-extension Harmonic {
+extension SQLight {
     enum Keys {
-        static let stateSerialization = "Harmony.State"
+        static let stateSerialization = "SQLight.State"
     }
 }

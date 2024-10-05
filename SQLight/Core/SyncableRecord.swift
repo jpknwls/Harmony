@@ -1,5 +1,5 @@
 //
-//  HRecord.swift
+//  SyncableRecord.swift
 //  CloudSyncTest
 //
 //  Created by Aaron Pearce on 14/07/21.
@@ -13,7 +13,7 @@ public protocol CloudKitEncodable: Encodable {}
 
 public protocol CloudKitDecodable: Decodable {}
 
-public protocol HRecord: CloudKitEncodable & CloudKitDecodable & FetchableRecord & PersistableRecord {
+public protocol SyncableRecord: CloudKitEncodable & CloudKitDecodable & FetchableRecord & PersistableRecord {
 
     // Required model values
     var id: UUID { get }
@@ -36,7 +36,7 @@ public protocol HRecord: CloudKitEncodable & CloudKitDecodable & FetchableRecord
     mutating func updateChanges(db: Database, ckRecord: CKRecord) throws
 }
 
-extension HRecord {
+extension SyncableRecord {
     public var archivedRecord: CKRecord? {
         get {
             guard let data = archivedRecordData,

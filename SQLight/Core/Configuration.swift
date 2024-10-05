@@ -1,6 +1,6 @@
 //
 //  Configuration.swift
-//  Harmony
+//  SQLight
 //
 //  Created by Aaron Pearce on 8/06/23.
 //
@@ -26,3 +26,4 @@ public struct Configuration: Sendable{
         self.databaseConfiguration = databaseConfiguration
     }
 }
+

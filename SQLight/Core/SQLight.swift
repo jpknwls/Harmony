@@ -12,11 +12,11 @@ import GRDB
 import Combine
 
 ///
-/// Harmony becomes your central repository.
+/// SQLight becomes your central repository.
 /// Every write and read goes via it.
 ///
 /// Existing GRDB users can pass in their database file path if they wish
-/// Harmony will take the following configuration options
+/// SQLight will take the following configuration options
 /// - recordTypes: [HRecord.Type]
 /// - configuration: Configuration
 ///     - cloudKitContainerIdentifier: String
@@ -29,7 +29,7 @@ import Combine
 /// GRDB.DatabaseWriter protocol with syntatic sugar for
 /// HRecord.
 ///
-/// Harmony will then manage all syncing and DB management
+/// SQLight will then manage all syncing and DB management
 /// internally, removing the need for the system to observe
 /// the database in any manner and also removing the
 /// possiblity for a user to write directly to the database
@@ -52,7 +52,7 @@ public final class SQLight {
         return _syncEngine!
     }
 
-    private let modelTypes: [any HRecord.Type]
+    private let modelTypes: [any SyncableRecord.Type]
     private let container: CKContainer
     private let userDefaults: UserDefaults
     let database: DatabaseWriter
@@ -87,7 +87,7 @@ public final class SQLight {
         }
     }
 
-    public init(for modelTypes: [any HRecord.Type], configuration: Configuration, migrator: DatabaseMigrator) {
+    public init(for modelTypes: [any SyncableRecord.Type], configuration: Configuration, migrator: DatabaseMigrator) {
         self.modelTypes = modelTypes
         self.configuration = configuration
 
@@ -274,7 +274,7 @@ private extension SQLight {
     func handleFetchedRecordZoneChanges(_ event: CKSyncEngine.Event.FetchedRecordZoneChanges) {
         Logger.database.info("Handle fetched record zone changes \(event)")
 
-        var deferredRecords = [any HRecord]()
+        var deferredRecords = [any SyncableRecord]()
         for modification in event.modifications {
             // The sync engine fetched a record, and we want to merge it into our local persistence.
             // If we already have this object locally, let's merge the data from the server.
@@ -428,11 +428,11 @@ private extension SQLight {
 
 private extension SQLight {
 
-    func modelType(for record: CKRecord) -> (any HRecord.Type)? {
+    func modelType(for record: CKRecord) -> (any SyncableRecord.Type)? {
         return modelType(for: record.recordType)
     }
 
-    func modelType(for recordType: String) -> (any HRecord.Type)? {
+    func modelType(for recordType: String) -> (any SyncableRecord.Type)? {
         guard let modelType = self.modelTypes.first(where: { t in
             t.recordType == recordType
         }) else {

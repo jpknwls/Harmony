@@ -21,8 +21,13 @@ public extension SQLight {
             try block(db)
         }
     }
+    
+    func write<T>(_ block: (Database) throws -> T) throws -> T{
+        try database.write(block)
+    }
 
-    func create<T: HRecord>(record: T) async throws {
+
+    func create<T: SyncableRecord>(record: T) async throws {
         try await database.write { db in
             try record.insert(db)
         }
@@ -30,7 +35,7 @@ public extension SQLight {
         queueSaves(for: [record])
     }
     
-    func create<T: HRecord>(records: [T]) async throws {
+    func create<T: SyncableRecord>(records: [T]) async throws {
         try await database.write { db in
             try records.forEach {
                 try $0.insert(db)
@@ -39,7 +44,7 @@ public extension SQLight {
         queueSaves(for: records)
     }
 
-    func save<T: HRecord>(record: T) async throws {
+    func save<T: SyncableRecord>(record: T) async throws {
         try await database.write { db in
             try record.save(db)
         }
@@ -47,7 +52,7 @@ public extension SQLight {
         queueSaves(for: [record])
     }
 
-    func save<T: HRecord>(records: [T]) async throws {
+    func save<T: SyncableRecord>(records: [T]) async throws {
         _ = try await database.write { db in
             try records.forEach {
                 try $0.save(db)
@@ -57,7 +62,7 @@ public extension SQLight {
         queueSaves(for: records)
     }
 
-    func delete<T: HRecord>(record: T) async throws {
+    func delete<T: SyncableRecord>(record: T) async throws {
         _ = try await database.write { db in
             try record.delete(db)
         }
@@ -65,7 +70,7 @@ public extension SQLight {
         queueDeletions(for: [record])
     }
 
-    func delete<T: HRecord>(records: [T]) async throws {
+    func delete<T: SyncableRecord>(records: [T]) async throws {
         _ = try await database.write { db in
             try records.forEach {
                 try $0.delete(db)
@@ -75,7 +80,7 @@ public extension SQLight {
         queueDeletions(for: records)
     }
 
-    private func queueSaves(for records: [any HRecord]) {
+    private func queueSaves(for records: [any SyncableRecord]) {
         Logger.database.info("Queuing saves")
         let pendingSaves: [CKSyncEngine.PendingRecordZoneChange] = records.map { 
             .saveRecord($0.recordID)
@@ -84,7 +89,7 @@ public extension SQLight {
         self.syncEngine.state.add(pendingRecordZoneChanges: pendingSaves)
     }
 
-    private func queueDeletions(for records: [any HRecord]) {
+    private func queueDeletions(for records: [any SyncableRecord]) {
         Logger.database.info("Queuing deletions")
         let pendingDeletions: [CKSyncEngine.PendingRecordZoneChange] = records.map {
             .deleteRecord($0.recordID)
@@ -102,3 +107,63 @@ public extension SQLight {
     }
 }
 
+
+
+
+extension SQLight {
+    
+    func create<T: SyncableRecord>(record: T)  throws {
+        try database.write { db in
+            try record.insert(db)
+        }
+
+        queueSaves(for: [record])
+    }
+    
+    func create<T: SyncableRecord>(records: [T])  throws {
+        try  database.write { db in
+            try records.forEach {
+                try $0.insert(db)
+            }
+        }
+        queueSaves(for: records)
+    }
+
+    func save<T: SyncableRecord>(record: T)  throws {
+        try  database.write { db in
+            try record.save(db)
+        }
+
+        queueSaves(for: [record])
+    }
+
+    func save<T: SyncableRecord>(records: [T])  throws {
+        _ = try  database.write { db in
+            try records.forEach {
+                try $0.save(db)
+            }
+        }
+
+        queueSaves(for: records)
+    }
+
+    func delete<T: SyncableRecord>(record: T)  throws {
+        _ = try  database.write { db in
+            try record.delete(db)
+        }
+
+        queueDeletions(for: [record])
+    }
+
+    func delete<T: SyncableRecord>(records: [T])  throws {
+        _ = try  database.write { db in
+            try records.forEach {
+                try $0.delete(db)
+            }
+        }
+
+        queueDeletions(for: records)
+    }
+    
+    
+}

@@ -1,7 +1,7 @@
 import XCTest
-@testable import Harmony
+@testable import SQLight
 
-final class HarmonyTests: XCTestCase {
+final class SQLightTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
